@@ -13,7 +13,7 @@ class _TaskViewState extends State<TaskView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Lista de Tareas'),
+        title: Text('Lista de Tareas', style: TextStyle(color: Colors.white)),
       ),
       body: ListView.builder(
         itemCount: _todoController.todos.length,
