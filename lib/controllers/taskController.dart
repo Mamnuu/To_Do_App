@@ -13,6 +13,11 @@ class TaskController {
     _tasks[index].isCompleted = !_tasks[index].isCompleted;
   }
 
+  void editTask(int index, String taskName, String description) {
+    _tasks[index].taskName = taskName;
+    _tasks[index].description = description;
+  }
+
   void deleteTask(int index) {
     _tasks.removeAt(index);
   }

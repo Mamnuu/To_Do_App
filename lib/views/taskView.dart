@@ -13,7 +13,7 @@ class _TaskViewState extends State<TaskView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Lista de Tareas  ${_todoController.todos.length}' , style: TextStyle(color: Colors.white)),
+        title: Text('Lista de Tareas  ${_todoController.todos.length}', style: TextStyle(color: Colors.white)),
       ),
       body: ListView.builder(
         itemCount: _todoController.todos.length,
@@ -29,13 +29,24 @@ class _TaskViewState extends State<TaskView> {
                 });
               },
             ),
-            trailing: IconButton(
-              icon: Icon(Icons.delete),
-              onPressed: () {
-                setState(() {
-                  _todoController.deleteTask(index);
-                });
-              },
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                IconButton(
+                  icon: Icon(Icons.edit),
+                  onPressed: () {
+                    _showEditTaskDialog(context, index);
+                  },
+                ),
+                IconButton(
+                  icon: Icon(Icons.delete),
+                  onPressed: () {
+                    setState(() {
+                      _todoController.deleteTask(index);
+                    });
+                  },
+                ),
+              ],
             ),
           );
         },
@@ -87,6 +98,57 @@ class _TaskViewState extends State<TaskView> {
               onPressed: () {
                 setState(() {
                   _todoController.addTask(newTaskName, newTaskDescription);
+                });
+                Navigator.pop(context);
+              },
+              child: Text('Aceptar'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showEditTaskDialog(BuildContext context, int index) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        String newTaskName = _todoController.todos[index].taskName;
+        String newTaskDescription = _todoController.todos[index].description;
+
+        return AlertDialog(
+          title: Text('Editar Tarea'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                onChanged: (value) {
+                  newTaskName = value;
+                },
+                decoration: InputDecoration(labelText: 'Nombre de la Tarea'),
+                controller: TextEditingController(text: newTaskName),
+              ),
+              TextField(
+                onChanged: (value) {
+                  newTaskDescription = value;
+                },
+                decoration:
+                    InputDecoration(labelText: 'Descripción de la Tarea'),
+                controller: TextEditingController(text: newTaskDescription),
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('Cancelar'),
+            ),
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  _todoController.editTask(index, newTaskName, newTaskDescription);
                 });
                 Navigator.pop(context);
               },
