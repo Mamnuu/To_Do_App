@@ -98,6 +98,7 @@ class _TaskViewState extends State<TaskView> {
               onPressed: () {
                 setState(() {
                   _todoController.addTask(newTaskName, newTaskDescription);
+                  _todoController.create({'title': 'tarea1'});
                 });
                 Navigator.pop(context);
               },
